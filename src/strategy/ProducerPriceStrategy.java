@@ -16,6 +16,10 @@ public final class ProducerPriceStrategy implements ProducerStrategy {
         this.distributor = distributor;
     }
     @Override
+    /**
+     * Producatorii sunt sortati dupa strategia Price si se adauga
+     * intr-o lista toti producatorii de care distribuitorul are nevoie
+     */
     public List<Producer> getProducers() {
         List<Producer> producersForDistributor = new ArrayList<>();
         int energy = distributor.getEnergyNeededKW();

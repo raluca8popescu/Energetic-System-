@@ -27,6 +27,9 @@ public final class TurnsSimulator {
         this.fileOut = fileOut;
     }
 
+    /**
+     * Crearea claselor de input, output si rularea rundelor simularii
+     */
     public void startGame() throws IOException {
 
         ObjectMapper mapper = new ObjectMapper();
@@ -46,7 +49,6 @@ public final class TurnsSimulator {
         data.payContractPrice();
         data.payMonthlyCost();
         data.lowerTurn();
-        data.removeBankrupt();
 
         /*
             Derularea rundelor

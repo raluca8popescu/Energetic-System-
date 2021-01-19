@@ -18,6 +18,10 @@ public final class ProducerQuantityStrategy implements ProducerStrategy {
     }
 
     @Override
+    /**
+     * Producatorii sunt sortati dupa strategia Quantity si se adauga
+     * intr-o lista toti producatorii de care distribuitorul are nevoie
+     */
     public List<Producer> getProducers() {
         List<Producer> producersForDistributor = new ArrayList<>();
         int energy = distributor.getEnergyNeededKW();

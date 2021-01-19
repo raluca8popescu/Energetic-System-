@@ -156,9 +156,9 @@ public final class InitialData {
     }
 
     /**
-     * Pentru fiecare consumator care este in runda 0 si i se face prima data contract sau nu
-     * este in faliment si nu mai are contract cu un distribuitor, se va crea un contract si
-     * se va adauga consumatorul in lista de clienti a distribuitorului
+     * Consumatorilor aflati in runda 0 sau celor care nu mai au distribuitor si
+     * nu sunt falimentati li se va crea un contract si se va adauga consumatorul
+     * in lista de clienti a distribuitorului
      */
     public void contractSetter() {
         Distributor dist;
@@ -182,10 +182,10 @@ public final class InitialData {
                 }
         }
     }
-//    /**
-//     * Returneaza distribuitorul cu cel mai bun pret al contractului din lista
-//     * de distribuitori mai putin cei aflati in faliment
-//     */
+    /**
+     * Returneaza distribuitorul cu cel mai bun pret al contractului din lista
+     * de distribuitori, mai putin cei aflati in faliment
+     */
     public GeneralContract bestDistributor() {
         int minim = MAX_NUMBER;
         int id = 0;
@@ -233,7 +233,8 @@ public final class InitialData {
     }
 
     /**
-     * Adauga venitul lunar fiecarui consumator care nu este in faliment
+     * Adaugarea venitului lunar pentru fiecare consumator care
+     * nu este in faliment
      */
     public void addMonthlyIncome() {
         for (Consumer consumer : consumers) {
@@ -257,10 +258,19 @@ public final class InitialData {
             for (int i = 0; i < distributor.getClients().size(); i++) {
                 Consumer client = distributor.getClients().get(i);
                 if (!bankruptConsumers.contains(client)) {
+                    /*
+                        Pentru cei aflati in lista cu consumatorii
+                        care nu si-au putut plati taxa pe luna anterioara
+                     */
                     if (latePayers.contains(client)) {
                         int latePrice = (int) Math.round(Math.
                                 floor(CONST_2 * client.getExFinalPrice()))
                                 + client.getContract().getPrice();
+                        /*
+                            Consumatorii care nu pot plati nici aceasta luna,
+                            intra in faliment, iar ceilalti sunt scosi de la
+                            consumatori intarziati
+                         */
                         if (client.getBudget() - latePrice < 0) {
                             client.getContract().setRemainedContractMonths(-1);
                             latePayers.remove(client);
@@ -280,6 +290,10 @@ public final class InitialData {
                             latePayers.remove(client);
                         }
                     } else {
+                        /*
+                            Daca nu poate sa plateasca taxa, este adaugat la lista de
+                            consumatori intarziati
+                         */
                         if (client.getBudget() - client.getContract().getPrice() < 0) {
                             latePayers.add(client);
                             client.setExFinalPrice(client.getContract().getPrice());
@@ -307,6 +321,9 @@ public final class InitialData {
             if (!bankruptDistributors.contains(distributor)) {
                 distributor.resetDistributor(1);
                 distributor.setBudget(distributor.getBudget() - distributor.getTotalMonthlyCost());
+                /*
+                    Adaugarea la lista de falimentati a distribuitorilor
+                 */
                 if (distributor.getBudget() < 0) {
                     bankruptDistributors.add(distributor);
                     for (int i = 0; i < distributor.getClients().size(); i++) {
@@ -322,6 +339,9 @@ public final class InitialData {
                 }
             }
         }
+        /*
+            Daca toti distribuitorii au falimentat
+         */
         if (bankruptDistributors.size() == distributors.size()) {
             endOfGame = true;
         }
@@ -354,6 +374,9 @@ public final class InitialData {
         }
     }
 
+    /**
+     * Creeaza lista  lunara de distribuitori  pentru fiecare producator
+     */
     public void monthlyStats(int month) {
         for (Producer producer : producers) {
             List<MonthlyStats> stats = producer.getMonthlyStats();

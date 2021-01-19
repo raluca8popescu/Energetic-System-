@@ -1,0 +1,51 @@
+Nume: Popescu
+Prenume: Raluca-Elena
+Grupa: 323CA
+GitHub: raluca8popescu
+
+Metoda main este un entry-point al programului. In metoda startGame din clasa TurnsSimulator
+are loc citirea datelor din json.
+Fata de etapa anterioara, am implementat urmatoarele schimbari:
+
+- In cadrul citirii datelor de intrare, am adaugat clasa Producer.
+
+- Deoarece distribuitorii isi vor calcula costurile de productie in functie de producatorii sai,
+am adaugat metodele choiceOfProducer si setDistributorscosts.
+    * In metoda choiceOfProducer, fiecare distribuitor primeste o lista de producatori in functie de
+strategia pe care o urmareste. Pentru alegerea producatorilor potriviti, am folosit design pattern-ul Strategy
+si am creat 3 clase derivate din interfata ProducerStrategy pentru fiecare dintre strategiile existente.
+    * Metoda setDistributorscosts calculeaza costurile fiecarui distribuitor in functie de lista sa de producatori.
+
+- Fiecare producator trebuie sa pastreze pentru fiecare luna id-urile tuturor distribuitorilor
+carora le dau energie, asa ca am creat metoda monthlyStats pentru a salva aceste modificari.
+
+- In cadrul schimbarilor lunare, am adaugat metoda modifyProducer care seteaza noile modificari.
+Pentru a pastra intr-un mod avantajos legatura dintre distribuitori si producatori, am folosit design pattern-ul
+Observer. Distribuitorii sunt observerii, iar producatorii sunt observable. Astfel, cand apar modificari pentru un producator,
+acesta notifica, prin metoda updateNeeded, toti observerii lui, adica distribuitorii care isi vor elimina toti producatorii din lista.
+
+Rundele se desfasoara astfel:
+
+- In runda 0:
+    * Se aleg producatorii pentru fiecare distribuitor.
+    * Se seteaza costurile distribuitorilor in functie de producatorii sai.
+    * Consumatorii primesc venitul lunar.
+    * Se aleg contractele pentru fiecare consumator.
+    * Se platesc taxele catre distribuitori.
+    * Distribuitorii isi platesc costurile.
+    * Se scade cu o luna fiecare contract.
+    *  La inceputul urmatoarei runde, se updateaza contractele in functie de cati consumatori are fiecare distribuitor.
+
+- In celelalte runde: 
+    * Se updateaza distribuitorii si consumatorii.
+    * Consumatorii primesc venitul lunar.
+    * Se aleg contractele pentru fiecare consumator.
+    * Se platesc taxele catre distribuitori.
+    * Se updateaza producatorii.
+    * Se aleg producatorii pentru fiecare distribuitor.
+    * Se seteaza costurile distribuitorilor in functie de producatorii sai.
+    * Se calculeaza monthlyStats.
+    * Se scade cu o luna fiecare contract.
+    * La inceputul urmatoarei runde, se updateaza contractele in functie de cati consumatori are fiecare distribuitor.
+
+

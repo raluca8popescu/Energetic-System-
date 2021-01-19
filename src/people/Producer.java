@@ -95,14 +95,24 @@ public final class Producer extends Observable {
         this.monthlyStats = monthlyStats;
     }
 
+    /**
+     * Adaugarea distribuitorului in lista de observatori
+     */
     public void addObserverInList(Distributor distributor) {
         addObserver(distributor);
     }
 
+    /**
+     * Eliminarea distribuitorului din lista de observatori
+     */
     public void deleteObserverFromList(Distributor distributor) {
         deleteObserver(distributor);
     }
 
+    /**
+     * Notificarea tuturor observatorilor in cazul in care
+     * producatorul are parte de schimbari
+     */
     public void updateNeeded() {
         setChanged();
         notifyObservers();

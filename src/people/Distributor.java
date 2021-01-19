@@ -115,6 +115,10 @@ public final class Distributor implements Observer {
         this.producerStrategy = producerStrategy;
     }
 
+    /**
+     *  Sunt setate toate costurile distribuitorului in functie de
+     *  producatorii din lista sa
+     */
     public void setAllCosts(List<Producer> producerList) {
         int cost = 0;
         for (Producer producer : producerList) {
@@ -156,7 +160,7 @@ public final class Distributor implements Observer {
 
     /**
      * In funtie de situatie, recalculeaza profitul, pretul si costurile totale.
-     * In cazul in situation = 0, se recalculeaza toate, dar daca situatia este 1,
+     * In cazul in care situation = 0, se recalculeaza toate, iar daca situation = 1,
      * se vor recalcula doar profitul si costurile totale deoarece contractele se
      * refac doar la inceput de luna
      */
@@ -196,6 +200,10 @@ public final class Distributor implements Observer {
         return outContracts;
     }
 
+    /**
+     * Elimina distribuitorul din lista de producatori data ca parametru
+     * si din lista de observatori ai acestora
+     */
     public void removeFromProducers(List<Producer> producerList, Distributor dist) {
         for (Producer producer : producerList) {
             if (producer.getMyDistributors().contains(dist)) {
@@ -207,6 +215,9 @@ public final class Distributor implements Observer {
     }
 
     @Override
+    /**
+     *  Elimina toti producatorii din lista distribuitorului
+     */
     public void update(Observable o, Object arg) {
         myProducers.clear();
     }
