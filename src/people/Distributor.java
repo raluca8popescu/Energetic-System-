@@ -7,8 +7,10 @@ import contract.OutContract;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-public final class Distributor {
+public final class Distributor implements Observer {
     private final int id;
     private final int contractLength;
     private int budget;
@@ -76,13 +78,6 @@ public final class Distributor {
     public void setMyProducers(List<Producer> myProducers) {
         this.myProducers = myProducers;
     }
-//    public int getProductionCost() {
-//        return productionCost;
-//    }
-//
-//    public void setProductionCost(final int productionCost) {
-//        this.productionCost = productionCost;
-//    }
 
     public int getContractFinalPrice() {
         return contractFinalPrice;
@@ -118,22 +113,6 @@ public final class Distributor {
 
     public void setProducerStrategy(String producerStrategy) {
         this.producerStrategy = producerStrategy;
-    }
-
-    public int getProfit() {
-        return profit;
-    }
-
-    public void setProfit(int profit) {
-        this.profit = profit;
-    }
-
-    public int getProductionCost() {
-        return productionCost;
-    }
-
-    public void setProductionCost(int productionCost) {
-        this.productionCost = productionCost;
     }
 
     public void setAllCosts(List<Producer> producerList) {
@@ -221,8 +200,14 @@ public final class Distributor {
         for (Producer producer : producerList) {
             if (producer.getMyDistributors().contains(dist)) {
                 producer.getMyDistributors().remove(dist);
+                producer.deleteObserverFromList(dist);
                 producer.setNumberOfDistributors(producer.getNumberOfDistributors() - 1);
             }
         }
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        myProducers.clear();
     }
 }

@@ -5,8 +5,9 @@ import outputfiles.MonthlyStats;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
-public final class Producer {
+public final class Producer extends Observable {
     private int id;
     private String energyType;
     private int maxDistributors;
@@ -94,17 +95,16 @@ public final class Producer {
         this.monthlyStats = monthlyStats;
     }
 
-    @Override
-    public String toString() {
-        return "Producer{" +
-                "id=" + id +
-                ", energyType='" + energyType + '\'' +
-                ", maxDistributors=" + maxDistributors +
-                ", numberOfDistributors=" + numberOfDistributors +
-                ", myDistributors=" + myDistributors +
-                ", priceKW=" + priceKW +
-                ", energyPerDistributor=" + energyPerDistributor +
-                ", monthlyStats=" + monthlyStats +
-                '}';
+    public void addObserverInList(Distributor distributor) {
+        addObserver(distributor);
+    }
+
+    public void deleteObserverFromList(Distributor distributor) {
+        deleteObserver(distributor);
+    }
+
+    public void updateNeeded() {
+        setChanged();
+        notifyObservers();
     }
 }

@@ -23,14 +23,11 @@ public final class ProducerPriceStrategy implements ProducerStrategy {
         producers.sort(Collections.reverseOrder(new ComparatorPriceStrategy()));
         distributor.removeFromProducers(producers, distributor);
         for (Producer producer : producers) {
-//            if(producer.getMyDistributors().contains(distributor)){
-//                producer.getMyDistributors().remove(distributor);
-//                producer.setNumberOfDistributors(producer.getNumberOfDistributors() - 1);
-//            }
             if (producer.getNumberOfDistributors() < producer.getMaxDistributors()) {
                 energy -= producer.getEnergyPerDistributor();
                 producersForDistributor.add(producer);
                 producer.getMyDistributors().add(distributor);
+                producer.addObserverInList(distributor);
                 producer.setNumberOfDistributors(producer.getNumberOfDistributors() + 1);
                 if (energy <= 0) {
                     return producersForDistributor;

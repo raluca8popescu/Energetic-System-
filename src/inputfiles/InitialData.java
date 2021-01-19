@@ -68,6 +68,11 @@ public final class InitialData {
         return endOfGame;
     }
 
+
+    /**
+     *  Alege producatorii pentru fiecare distribuitor care are
+     *  lista de producatori goala, in functie de strategia corespunzatoare
+     */
     public void choiceOfProducer() {
         for (Distributor distributor : distributors) {
             if (!bankruptDistributors.contains(distributor)) {
@@ -77,26 +82,27 @@ public final class InitialData {
                                 ProducerGreenStrategy(producers, distributor);
                         List<Producer> thisProducers = strategy.getProducers();
                         distributor.setMyProducers(thisProducers);
-//                        distributor.setAllCosts(thisProducers);
                     }
                     if (distributor.getProducerStrategy().equals("PRICE")) {
                         ProducerStrategy strategy = new
                                 ProducerPriceStrategy(producers, distributor);
                         List<Producer> thisProducers = strategy.getProducers();
                         distributor.setMyProducers(thisProducers);
-//                        distributor.setAllCosts(thisProducers);
                     }
                     if (distributor.getProducerStrategy().equals("QUANTITY")) {
                         ProducerStrategy strategy = new
                                 ProducerQuantityStrategy(producers, distributor);
                         List<Producer> thisProducers = strategy.getProducers();
                         distributor.setMyProducers(thisProducers);
-//                        distributor.setAllCosts(thisProducers);
                     }
                 }
             }
         }
     }
+    /**
+     *  Pentru fiecare distribuitor, se apeleaza functia care calculeaza
+     *  toate costurile in functie de producatorii sai
+     */
     public void setDistributorscosts() {
         for (Distributor distributor : distributors) {
             distributor.setAllCosts(distributor.getMyProducers());
@@ -104,7 +110,7 @@ public final class InitialData {
     }
 
     /**
-     * Functia reseteaza contractele la fiecare inceput de runda
+     * Functia reseteaza contractele la inceputul fiecarei runde
      */
     public void updateContract() {
         for (Distributor distributor : distributors) {
@@ -123,6 +129,10 @@ public final class InitialData {
             }
         }
     }
+    /**
+     *  Returneaza producatorul caruia ii corespunde id-ul dat
+     *  ca parametru
+     */
     public Producer producerId(int id) {
         for (Producer producer : producers) {
             if (producer.getId() == id) {
@@ -131,28 +141,18 @@ public final class InitialData {
         }
         return null;
     }
+    /**
+     *  Se modifica producatorul in functie de update-urile primite
+     *  si se apeleaza functia care notifica observatorii ca trebuie
+     *  sa faca update-uri
+     */
     public void modifyProducer(ProducerChanges producerChanges) {
         Producer producer = producerId(producerChanges.getId());
         producer.setEnergyPerDistributor(producerChanges.getEnergyPerDistributor());
         List<Distributor> myDistributors = producer.getMyDistributors();
         if (!myDistributors.isEmpty()) {
-            for (Distributor distributor : myDistributors) {
-//                if (!distributor.getMyProducers().isEmpty()){
-//                    for (Producer producer1 : distributor.getMyProducers()) {
-//                        if(!producer1.equals(producer)) {
-//                            producer1.getMyDistributors().remove(distributor);
-//                            producer1.setNumberOfDistributors(producer1.
-//                            getNumberOfDistributors() - 1);
-//                        }
-//                    }
-//                }
-
-                distributor.getMyProducers().clear();
-            }
+            producer.updateNeeded();
         }
-//        myDistributors.clear();
-//        producer.setNumberOfDistributors(0);
-
     }
 
     /**
