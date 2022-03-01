@@ -1,2 +1,15 @@
-# Etapa-2-Sistem-energetic
-# Etapa2
+The energetic network of a country is a complex system, consisting of producers, distributors, consumers (domestic or industrial) and state institutions that regulate and supervise the proper functioning of the system.
+The project is based on a simulation of an energetic system in which entities with well-defined tasks exist. All this entities are trying to fulfill their duties with the ultimate goal of remaining in the market and avoiding bankruptcy. 
+
+The consumers want energy source and they have an initial budget and a monthly income. They choose the contract with the smallest monthly rate and they pay the rate after a period of time established when signing the contract. If he runs out of money, he can postpone paying the bill for a month provided that in the following month he pays the bill for the current month and for the last month, as well as a penalty equal to 20% of the amount of the unpaid bill. If he cannot pay the next month, then he will declare bankruptcy, being excluded from the game. A consumer is considered a client of a distributor until he chooses another contract or until the end of the month he declared bankruptcy.
+
+Distributors will represent the companies responsible for providing energy sources. Each such company will be visited every month by consumers eager to find out what offer they can get. A distributor can change the characteristics of the new contracts (maintenance costs and duration) every month, the new values being found in the input.Distributors will also have an initial budget, to which the monthly profit will be added. As they have to pay prices for both infrastructure and production, the contract price formula differs depending on the number of customers. The contract price will be recalculated at the beginning of each month using the new distributor information received as input. The costs will be specified in the input file and the profit will be considered 20% of the production cost. A distributor, whether or not he has customers, will have to pay the company's infrastructure costs at the end of each month. The cost of production will be paid only if there are customers at the end of that month. Thus, if a company fails to attract customers for a long time, then it will go bankrupt and go out of business. The clients of the bankrupt company will look for a new offer next month. Distributors need a monthly amount of energy. This amount is constant and it is given as input. In the first round, distributors choose one or more producers to provide them with the necessary amount of energy. The choice is made on the basis of strategies - each distributor has a strategy received as input.
+
+Green Strategy - a distributor chooses its producers by prioritizing those with renewable energy first, then by price, then by quantity
+Price Strategy - a distributor chooses his producers prioritizing only by price, then by quantity
+Quantity Strategy - a distributor chooses his producers by prioritizing the amount of energy offered per 
+distributor
+
+The simulation starts with an initial round, where the data received at the beginning is used, then numberOfTurns months are run,using the new prices received at the beginning of each month. Thus, the simulation ends when numberOfTurns + 1 rounds have been run and the current status of the simulation is displayed. If all distributors go bankrupt, the game will end.
+
+
